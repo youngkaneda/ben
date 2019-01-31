@@ -13,7 +13,6 @@
 4. ```mv target/ben-1.0.jar <maven-project-path>/lib/```
 
 >After that add the following dependency to your pom.xml.
-
 ```
 <dependency>
     <groupId>com.torrent.ben</groupId>
@@ -24,12 +23,11 @@
 </dependency>
 ```
 
->Feel free to fork and improve.
-
----
-
 ### TODO:
 
 1. ~~Create Tests.~~
 2. Add Test coverage.
 3. ~~Update Readme with a "use dependency guide".~~
+
+---
+Feel free to fork and improve.
