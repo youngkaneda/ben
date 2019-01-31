@@ -8,4 +8,6 @@ Feel free to fork and improve.
 
 ### TODO:
 
-1. Create Tests.
+1. ~~Create Tests.~~
+2. Add Test coverage.
+3. Update Readme with a 'use dependency guide'.
