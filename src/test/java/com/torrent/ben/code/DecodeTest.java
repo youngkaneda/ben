@@ -35,8 +35,7 @@ public class DecodeTest {
         Assert.assertEquals(decoded.toString(), "aberf");
     }
 
-    @Test
-//            (expected = ArrayIndexOutOfBoundsException.class)
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
     public void decodeMalformedString() {
         // length > string.length
         Object decoded = this.decoder.decode("6:aberf");
