@@ -16,11 +16,10 @@ public enum DecodeType {
             //
             StringBuffer buffer = new StringBuffer();
             while(data[aux] != 'e') {
-                buffer.append(data[index.get()]);
+                buffer.append(data[aux]);
                 aux++;
             }
             index.set(++aux); // scape 'e' delimiter
-            System.out.println("(i) index equals to length -> " + index);
             return Integer.valueOf(buffer.toString());
         }
     },
@@ -36,7 +35,7 @@ public enum DecodeType {
             }while(String.valueOf(data[aux]).matches("\\b\\d+\\b"));
             // verify if the semicolon comes after the string length
             if(data[aux] != ':') {
-                throw new RuntimeException("malformed encoded string, error trying to parse");
+                throw new RuntimeException(String.format("malformed encoded string, error trying to parse -> %s", data[aux]));
             }
             // scape the semi colon
             aux++;
@@ -48,7 +47,6 @@ public enum DecodeType {
                 aux++;
             }
             index.set(aux);
-            System.out.println("(s) index equals to length -> " + index);
             return buffer.toString();
         }
     },
@@ -64,7 +62,6 @@ public enum DecodeType {
             }
             // scape 'e' delimiter;
             index.set(index.get() + 1);
-            System.out.println("(l) index equals to length -> " + index);
             return list;
         }
     },
@@ -84,7 +81,6 @@ public enum DecodeType {
             }
             // scape 'e' delimiter
             index.set(index.get() + 1);
-            System.out.println("(d) index equals to length -> " + index);
             return map;
 
         }
@@ -98,7 +94,7 @@ public enum DecodeType {
                 return DecodeType.S;
             return DecodeType.valueOf(String.valueOf(delimiter).toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw e;
+            throw new IllegalArgumentException(String.format("error trying to parse, theres no valid '%s' delimiter", delimiter));
         }
     }
 }
