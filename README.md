@@ -5,7 +5,7 @@
 
 ### This is a very basic BitTorrent encoding parser created in Java.
 
->To use this lib in your maven projectdo the following steps.
+>To use this lib in your maven project do the following steps.
 
 1. ```git clone https://github.com/juanpablolvl99/ben && cd ben```
 2. ```mvn clean package```
