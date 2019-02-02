@@ -1,6 +1,6 @@
 # ben :coffee:
 
-[![Build Status](https://travis-ci.org/juanpablolvl99/ben.svg?branch=master)](https://travis-ci.org/juanpablolvl99/ben)
+[![Build Status](https://travis-ci.org/youngkaneda/ben.svg?branch=master)](https://travis-ci.org/juanpablolvl99/ben)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
 ### This is a very basic BitTorrent encoding lib created in Java.
