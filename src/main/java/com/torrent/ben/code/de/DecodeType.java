@@ -1,5 +1,6 @@
 package com.torrent.ben.code.de;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,32 +11,32 @@ public enum DecodeType {
 
     I {
         @Override
-        public Object parse(char[] data, AtomicInteger index) {
+        public Object parse(byte[] data, AtomicInteger index) {
             // space 'i' delimiter
             int aux = index.incrementAndGet();
             //
             StringBuffer buffer = new StringBuffer();
-            while(data[aux] != 'e') {
-                buffer.append(data[aux]);
+            while(convertByteToChar(data[aux]) != 'e') {
+                buffer.append(convertByteToChar(data[aux]));
                 aux++;
             }
             index.set(++aux); // scape 'e' delimiter
-            return Integer.valueOf(buffer.toString());
+            return Long.valueOf(buffer.toString());
         }
     },
     S {
         @Override
-        public Object parse(char[] data, AtomicInteger index) {
+        public Object parse(byte[] data, AtomicInteger index) {
             int aux = index.get();
             //
             StringBuffer buffer = new StringBuffer();
             do {
-                buffer.append(data[aux]);
+                buffer.append(convertByteToChar(data[aux]));
                 aux++;
-            }while(String.valueOf(data[aux]).matches("\\b\\d+\\b"));
+            }while(String.valueOf(convertByteToChar(data[aux])).matches("\\b\\d+\\b"));
             // verify if the semicolon comes after the string length
-            if(data[aux] != ':') {
-                throw new RuntimeException(String.format("malformed encoded string, error trying to parse -> %s", data[aux]));
+            if(convertByteToChar(data[aux]) != ':') {
+                throw new RuntimeException(String.format("malformed encoded string, error trying to parse -> %s", convertByteToChar(data[aux])));
             }
             // scape the semi colon
             aux++;
@@ -43,7 +44,7 @@ public enum DecodeType {
             int length = Integer.valueOf(buffer.toString());
             buffer = new StringBuffer();
             for (int i = 0; i < length; i++) {
-                buffer.append(data[aux]);
+                buffer.append(convertByteToChar(data[aux]));
                 aux++;
             }
             index.set(aux);
@@ -52,7 +53,7 @@ public enum DecodeType {
     },
     L {
         @Override
-        public Object parse(char[] data, AtomicInteger index) {
+        public Object parse(byte[] data, AtomicInteger index) {
             // scape 'l' delimiter
             index.set(index.get() + 1);
             //
@@ -67,7 +68,7 @@ public enum DecodeType {
     },
     D {
         @Override
-        public Object parse(char[] data, AtomicInteger index) {
+        public Object parse(byte[] data, AtomicInteger index) {
             // scape 'd' delimiter;
             index.set(index.get() + 1);
             //
@@ -86,15 +87,19 @@ public enum DecodeType {
         }
     };
 
-    public abstract Object parse(char[] data, AtomicInteger index);
+    public abstract Object parse(byte[] data, AtomicInteger index);
 
-    public DecodeType findByDelimiter(char delimiter) {
+    public DecodeType findByDelimiter(byte delimiter) {
         try {
-            if (String.valueOf(delimiter).matches("\\b\\d+\\b"))
+            if (String.valueOf(convertByteToChar(delimiter)).matches("\\b\\d+\\b"))
                 return DecodeType.S;
-            return DecodeType.valueOf(String.valueOf(delimiter).toUpperCase());
+            return DecodeType.valueOf(String.valueOf(convertByteToChar(delimiter)).toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(String.format("error trying to parse, theres no valid '%s' delimiter", delimiter));
+            throw new IllegalArgumentException(String.format("error trying to parse, theres no valid '%s' delimiter", convertByteToChar(delimiter)));
         }
+    }
+
+    public char convertByteToChar(byte b) {
+        return (char)(b & 0xFF);
     }
 }

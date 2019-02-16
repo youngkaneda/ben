@@ -4,6 +4,11 @@ import com.torrent.ben.code.de.BDecoder;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
+
 public class DecodeTest {
 
     private BDecoder decoder;
@@ -83,5 +88,12 @@ public class DecodeTest {
     @Test(expected = IllegalArgumentException.class)
     public void decodeInvalidDelimiter() {
         this.decoder.decode("r4e");
+    }
+
+    @Test
+    public void decodeFile() throws IOException {
+        File file = new File(getClass().getClassLoader().getResource("alice.torrent").getFile());
+        byte[] bytes = Files.readAllBytes(Paths.get(file.toURI()));
+        Map<String, Object> map = (Map<String, Object>) this.decoder.decode(bytes);
     }
 }
