@@ -1,10 +1,9 @@
 package com.torrent.ben.code.de;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BDecoder {
+public class EncodedData {
 
     public Object decode(String data) {
         return data.isEmpty() ? null : this.decode(data.getBytes(StandardCharsets.UTF_8), new AtomicInteger(0));
